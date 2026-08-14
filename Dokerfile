@@ -1,0 +1,44 @@
+# 1. Usa a imagem oficial do PHP com Apache/Nginx integrada para produção
+FROM php:8.2-fpm
+
+# 2. Instala dependências do sistema e extensões necessárias para o Laravel e Filament
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
+    unzip \
+    nginx \
+    libzip-dev
+
+# Limpa o cache do gerenciador de pacotes para diminuir o tamanho da imagem
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# 3. Instala as extensões PHP cruciais (PDO MySQL, Zip, GD para imagens do Filament)
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+
+# 4. Instala o Composer de forma direta
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# 5. Define o diretório de trabalho dentro do container
+WORKDIR /var/www
+
+# 6. Copia os arquivos do seu projeto para dentro do container
+COPY . /var/www
+
+# 7. Instala as dependências do Laravel (ignora pacotes de desenvolvimento)
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+# 8. Configura as permissões de pastas do Laravel para que o servidor consiga escrever nelas
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+
+# 9. Copia a configuração personalizada do Nginx (vamos criar este arquivo a seguir)
+COPY nginx.conf /etc/nginx/sites-available/default
+
+# 10. Expõe a porta que o Render vai ler (geralmente a 80 ou a definida por ele)
+EXPOSE 80
+
+# 11. Script inicial para ligar o PHP e o Nginx juntos
+CMD php-fpm -D && nginx -g "daemon off;"
