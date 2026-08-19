@@ -23,7 +23,7 @@ class Dashboard extends BaseDashboard
                 ->icon('heroicon-o-qr-code') // Ícone de QR Code / Leitor
                 ->color('success')
                 ->size('sm') // Botão compacto
-                ->url('/admin/ler-qr-code'), // Caminho atualizado para a página de escaneamento
+                ->url('https://visiontech-g520.onrender.com/admin/scan-qr-code'), // Caminho atualizado para a página de escaneamento
         ];
     }
 
