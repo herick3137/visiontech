@@ -50,7 +50,7 @@ class UltimasMovimentacoesWidget extends BaseWidget
                 Action::make('verTodas')
                     ->label('Ver todas')
                     ->color('info')
-                    ->url(fn (): string => \App\Filament\Resources\MovimentacaoResource::getUrl('index')),
+                    ->url('https://visiontech-g520.onrender.com/admin/movimentacaos'), 
             ])
             ->paginated(false);
     }
