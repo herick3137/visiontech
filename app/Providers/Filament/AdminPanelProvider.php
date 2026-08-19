@@ -86,35 +86,7 @@ class AdminPanelProvider extends PanelProvider
                 PanelsRenderHook::HEAD_END,
                 fn (): string => Blade::render('
                     <style>
-                        /* Logo na Sidebar Escura */
-                        aside.fi-sidebar .brand-text-primary { color: #ffffff !important; }
-                        aside.fi-sidebar .brand-text-secondary { color: #9ca3af !important; }
-
-                        /* Estilização da Barra Lateral Escura */
-                        aside.fi-sidebar {
-                            background-color: #0b1120 !important;
-                            border-right: 1px solid #1e293b !important;
-                            display: flex !important;
-                            flex-direction: column !important;
-                        }
-                        aside.fi-sidebar .fi-sidebar-header,
-                        aside.fi-sidebar .fi-sidebar-nav { background-color: transparent !important; }
-                        aside.fi-sidebar .fi-sidebar-nav { flex: 1 1 auto !important; display: flex !important; flex-direction: column !important; }
-
-                        /* Textos da Sidebar */
-                        .fi-sidebar-group-label span { color: #64748b !important; font-size: 0.7rem !important; font-weight: 700 !important; }
-                        .fi-sidebar-item-button { color: #94a3b8 !important; }
-                        .fi-sidebar-item-active .fi-sidebar-item-button,
-                        .fi-sidebar-item-active .fi-sidebar-item-button * { background: #00a8cc !important; color: #ffffff !important; }
-
-                        /* MODO ESCURO - CARDS DE AÇÕES RÁPIDAS E SEÇÕES */
-                        .dark .fi-section,
-                        .dark .fi-wi-widget {
-                            background-color: #1e293b !important;
-                            border-color: #334155 !important;
-                        }
-
-                        /* FIX DE CORES: Botões de Ações Rápidas em Tema Escuro */
+                        /* MODO ESCURO - CORES DOS BOTÕES */
                         .dark [class*="acoes-rapidas"] a,
                         .dark [class*="acoes-rapidas"] button,
                         .dark .fi-section-content a,
@@ -122,66 +94,41 @@ class AdminPanelProvider extends PanelProvider
                             background-color: #0f172a !important;
                             border: 1px solid #334155 !important;
                         }
-                        
                         .dark [class*="acoes-rapidas"] *,
                         .dark .fi-section-content a *,
                         .dark .fi-section-content button * {
                             color: #f8fafc !important;
                         }
 
-                        /* --- FIX RESPONSIVO PARA O CELULAR (AÇÕES RÁPIDAS) --- */
+                        /* --- MODO TURBO: FORÇAR AÇÕES RÁPIDAS NO CELULAR --- */
                         @media (max-width: 640px) {
-                            /* Remove a barra de rolagem horizontal */
+                            /* Arranca qualquer barra de rolagem horizontal da seção */
                             .fi-section-content {
-                                overflow-x: hidden !important;
-                                padding: 0.5rem !important;
+                                overflow-x: hidden !important; 
                             }
                             
-                            /* Reorganiza qualquer container interno em Grid 2 Colunas */
+                            /* Força contêineres Flex ou Grid a quebrarem os itens para a linha de baixo */
                             .fi-section-content > div,
-                            .fi-section-content .grid,
-                            .fi-section-content [class*="flex"] {
-                                display: grid !important;
-                                grid-template-columns: repeat(2, 1fr) !important;
+                            .fi-section-content > div > div,
+                            [class*="acoes-rapidas"] > div {
+                                display: flex !important;
+                                flex-wrap: wrap !important;
                                 gap: 0.5rem !important;
                                 width: 100% !important;
-                                max-width: 100% !important;
-                                box-sizing: border-box !important;
                             }
 
-                            /* Ajusta o tamanho e texto dos cards para encaixar no celular */
+                            /* Força os botões a ocuparem 100% da largura (1 por linha) para garantir que cabem na tela */
                             .fi-section-content a, 
                             .fi-section-content button {
-                                width: 100% !important;
-                                min-width: 0 !important;
+                                width: 100% !important; 
+                                flex: 1 1 100% !important;
                                 max-width: 100% !important;
                                 box-sizing: border-box !important;
-                                padding: 0.5rem !important;
-                                flex-direction: column !important;
-                                align-items: flex-start !important;
-                            }
-
-                            .fi-section-content a *, 
-                            .fi-section-content button * {
                                 white-space: normal !important;
-                                word-break: break-word !important;
                             }
                         }
 
-                        /* Cores dos Cards do Stats Overview */
-                        .fi-wi-stats-overview-stat:nth-child(1) .fi-wi-stats-overview-stat-label,
-                        .fi-wi-stats-overview-stat:nth-child(1) .fi-wi-stats-overview-stat-description { color: #0284c7 !important; font-weight: 700 !important; }
-                        .fi-wi-stats-overview-stat:nth-child(2) .fi-wi-stats-overview-stat-label,
-                        .fi-wi-stats-overview-stat:nth-child(2) .fi-wi-stats-overview-stat-description { color: #16a34a !important; font-weight: 700 !important; }
-                        .fi-wi-stats-overview-stat:nth-child(3) .fi-wi-stats-overview-stat-label,
-                        .fi-wi-stats-overview-stat:nth-child(3) .fi-wi-stats-overview-stat-description { color: #ea580c !important; font-weight: 700 !important; }
-                        .fi-wi-stats-overview-stat:nth-child(4) .fi-wi-stats-overview-stat-label,
-                        .fi-wi-stats-overview-stat:nth-child(4) .fi-wi-stats-overview-stat-description { color: #9333ea !important; font-weight: 700 !important; }
-
-                        /* Layout Compacto */
-                        .fi-main { padding-top: 0.75rem !important; padding-bottom: 0.75rem !important; }
-                        .fi-page-header { margin-bottom: 0.5rem !important; }
-                        .fi-widgets { gap: 0.75rem !important; }
+                        /* (Mantenha aqui as outras regras de cor do logo e da sidebar que você já tinha) */
                     </style>
                 ')
             )
