@@ -1,72 +1,55 @@
 <x-filament-widgets::widget>
     <x-filament::section compact>
-        <h2 class="text-xs font-bold text-gray-900 dark:text-white mb-2 uppercase tracking-wider">Ações rápidas</h2>
+        <h2 class="titulo-ar mb-2 uppercase tracking-wider">Ações rápidas</h2>
 
-        <!-- CSS Puro para garantir o Grid sem depender da compilação do Tailwind -->
         <style>
-            .ar-grid {
-                display: grid !important;
-                grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
-                gap: 0.5rem !important;
-            }
-            @media (min-width: 640px) {
-                .ar-grid {
-                    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-                }
-            }
-            @media (min-width: 1024px) {
-                .ar-grid {
-                    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-                }
-            }
+            /* Layout (Celular 1, Tablet 2, PC 4) */
+            .ar-grid { display: grid !important; grid-template-columns: repeat(1, minmax(0, 1fr)) !important; gap: 0.5rem !important; }
+            @media (min-width: 640px) { .ar-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
+            @media (min-width: 1024px) { .ar-grid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; } }
+
+            /* Estilos - MODO CLARO (Padrão) */
+            .titulo-ar { font-size: 0.75rem; font-weight: bold; color: #111827; }
+            .ar-card { background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 0.5rem; display: flex; align-items: center; gap: 0.5rem; text-decoration: none; transition: all 0.2s; }
+            .ar-card:hover { border-color: #14b8a6; }
+            .ar-title { font-weight: bold; font-size: 0.75rem; line-height: 1.25; color: #111827; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin: 0; }
+            .ar-desc { font-size: 10px; color: #6b7280; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin: 0; }
+            .ar-icon { padding: 0.375rem; border-radius: 0.25rem; flex-shrink: 0; }
+            
+            .ico-1 { background-color: #ccfbf1; color: #0f766e; }
+            .ico-2 { background-color: #e0e7ff; color: #4338ca; }
+            .ico-3 { background-color: #fef3c7; color: #b45309; }
+            .ico-4 { background-color: #f3e8ff; color: #7e22ce; }
+
+            /* Estilos - MODO ESCURO (Forçado) */
+            .dark .titulo-ar { color: #ffffff !important; }
+            .dark .ar-card { background-color: #1e293b !important; border-color: #334155 !important; }
+            .dark .ar-title { color: #ffffff !important; }
+            .dark .ar-desc { color: #94a3b8 !important; }
+            
+            .dark .ico-1 { background-color: #042f2e !important; color: #2dd4bf !important; }
+            .dark .ico-2 { background-color: #1e1b4b !important; color: #818cf8 !important; }
+            .dark .ico-3 { background-color: #451a03 !important; color: #fbbf24 !important; }
+            .dark .ico-4 { background-color: #3b0764 !important; color: #c084fc !important; }
         </style>
 
         <div class="ar-grid">
-            
-            <!-- Botão 1: Ler QR Code -->
-            <a href="/admin/scan-qr-code" class="p-2 bg-gray-50 dark:bg-gray-800/60 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-teal-500 transition flex items-center gap-2">
-                <div class="p-1.5 bg-teal-100 text-teal-700 dark:bg-teal-950 dark:text-teal-400 rounded shrink-0">
-                    <x-heroicon-o-qr-code class="w-4 h-4" />
-                </div>
-                <div class="min-w-0">
-                    <h3 class="font-bold text-xs leading-tight text-gray-900 dark:text-white truncate">Ler QR Code</h3>
-                    <p class="text-[10px] text-gray-500 dark:text-gray-400 truncate">Escanear componente</p>
-                </div>
+            <a href="/admin/scan-qr-code" class="ar-card">
+                <div class="ar-icon ico-1"><x-heroicon-o-qr-code style="width: 1rem; height: 1rem;" /></div>
+                <div style="min-width: 0;"><h3 class="ar-title">Ler QR Code</h3><p class="ar-desc">Escanear componente</p></div>
             </a>
-
-            <!-- Botão 2: Cadastrar Componente -->
-            <a href="/admin/componentes/create" class="p-2 bg-gray-50 dark:bg-gray-800/60 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-teal-500 transition flex items-center gap-2">
-                <div class="p-1.5 bg-indigo-100 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-400 rounded shrink-0">
-                    <x-heroicon-o-cube class="w-4 h-4" />
-                </div>
-                <div class="min-w-0">
-                    <h3 class="font-bold text-xs leading-tight text-gray-900 dark:text-white truncate">Cadastrar Componente</h3>
-                    <p class="text-[10px] text-gray-500 dark:text-gray-400 truncate">Novo componente</p>
-                </div>
+            <a href="/admin/componentes/create" class="ar-card">
+                <div class="ar-icon ico-2"><x-heroicon-o-cube style="width: 1rem; height: 1rem;" /></div>
+                <div style="min-width: 0;"><h3 class="ar-title">Novo Componente</h3><p class="ar-desc">Cadastrar item</p></div>
             </a>
-
-            <!-- Botão 3: Cadastrar Sonda -->
-            <a href="/admin/sondas/create" class="p-2 bg-gray-50 dark:bg-gray-800/60 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-teal-500 transition flex items-center gap-2">
-                <div class="p-1.5 bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-400 rounded shrink-0">
-                    <x-heroicon-o-truck class="w-4 h-4" />
-                </div>
-                <div class="min-w-0">
-                    <h3 class="font-bold text-xs leading-tight text-gray-900 dark:text-white truncate">Cadastrar Sonda</h3>
-                    <p class="text-[10px] text-gray-500 dark:text-gray-400 truncate">Nova sonda</p>
-                </div>
+            <a href="/admin/sondas/create" class="ar-card">
+                <div class="ar-icon ico-3"><x-heroicon-o-truck style="width: 1rem; height: 1rem;" /></div>
+                <div style="min-width: 0;"><h3 class="ar-title">Nova Sonda</h3><p class="ar-desc">Cadastrar sonda</p></div>
             </a>
-
-            <!-- Botão 4: Relatórios -->
-            <a href="{{ \App\Filament\Pages\Relatorios::getUrl() }}" class="p-2 bg-gray-50 dark:bg-gray-800/60 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-teal-500 transition flex items-center gap-2">
-                <div class="p-1.5 bg-purple-100 text-purple-700 dark:bg-purple-950 dark:text-purple-400 rounded shrink-0">
-                    <x-heroicon-o-chart-bar class="w-4 h-4" />
-                </div>
-                <div class="min-w-0">
-                    <h3 class="font-bold text-xs leading-tight text-gray-900 dark:text-white truncate">Relatórios</h3>
-                    <p class="text-[10px] text-gray-500 dark:text-gray-400 truncate">Gerar relatórios</p>
-                </div>
+            <a href="{{ \App\Filament\Pages\Relatorios::getUrl() }}" class="ar-card">
+                <div class="ar-icon ico-4"><x-heroicon-o-chart-bar style="width: 1rem; height: 1rem;" /></div>
+                <div style="min-width: 0;"><h3 class="ar-title">Relatórios</h3><p class="ar-desc">Gerar relatórios</p></div>
             </a>
-
         </div>
     </x-filament::section>
 </x-filament-widgets::widget>
