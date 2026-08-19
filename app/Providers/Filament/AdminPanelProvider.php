@@ -43,18 +43,18 @@ class AdminPanelProvider extends PanelProvider
             ->font('Inter')
             ->brandLogo(fn () => new \Illuminate\Support\HtmlString('
                 <div style="display: flex; align-items: center; gap: 0.75rem;">
-                
-                    <!-- Ícone com fundo e cor fixos via estilo inline -->
+                    
+                    <!-- Ícone com fundo e cor fixos -->
                     <div style="display: flex; align-items: center; justify-content: center; width: 3.5rem; height: 3.5rem; border-radius: 1rem; background-color: #1F2937; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 2.25rem; height: 2.25rem; color: #22D3EE;">
                             <path d="M2 19h20v2H2v-2zM5 10h4v7H5v-7zm7-3l-2.5 7.5h5L12 7zm5.5-2c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm-6-2L6.5 5 5 9l2 .5 1-2.5 7.5-2 1.5 2.5 1.5-1.5-2-3.5-5 1z"/>
                         </svg>
                     </div>
 
-                    <!-- Textos corrigidos (Cor escura para o texto VISION aparecer no modo claro) -->
+                    <!-- Textos do Logo -->
                     <div style="display: flex; flex-direction: column; text-align: left;">
                         <span style="font-size: 1.5rem; line-height: 1; font-weight: 900; letter-spacing: -0.05em;">
-                            <span style="color: #1F2937;">VISION</span><span style="color: #22D3EE;">TECH</span>
+                            <span style="color: #ffffff;">VISION</span><span style="color: #22D3EE;">TECH</span>
                         </span>
                         
                         <span style="font-size: 0.65rem; font-weight: 700; letter-spacing: 0.25em; color: #9CA3AF; margin-top: 0.25rem;">
@@ -86,7 +86,62 @@ class AdminPanelProvider extends PanelProvider
                 PanelsRenderHook::HEAD_END,
                 fn (): string => Blade::render('
                     <style>
-                        /* MODO ESCURO - CORES DOS BOTÕES */
+                        /* --- 1. ESTILIZAÇÃO DA SIDEBAR BARRA LATERAL --- */
+                        aside.fi-sidebar {
+                            background-color: #0b1120 !important;
+                            border-right: 1px solid #1e293b !important;
+                            display: flex !important;
+                            flex-direction: column !important;
+                        }
+                        aside.fi-sidebar .fi-sidebar-header,
+                        aside.fi-sidebar .fi-sidebar-nav {
+                            background-color: transparent !important;
+                        }
+                        aside.fi-sidebar .fi-sidebar-nav {
+                            flex: 1 1 auto !important;
+                            display: flex !important;
+                            flex-direction: column !important;
+                        }
+                        .fi-sidebar-group-label span {
+                            color: #64748b !important;
+                            font-size: 0.7rem !important;
+                            font-weight: 700 !important;
+                        }
+                        .fi-sidebar-item-button {
+                            color: #94a3b8 !important;
+                        }
+                        .fi-sidebar-item-active .fi-sidebar-item-button,
+                        .fi-sidebar-item-active .fi-sidebar-item-button * {
+                            background: #00a8cc !important;
+                            color: #ffffff !important;
+                        }
+
+                        /* --- 2. FIX MODO ESCURO GERAL (RELATÓRIOS E CARDS COM BG-WHITE) --- */
+                        .dark .bg-white,
+                        .dark [class*="bg-white"],
+                        .dark .fi-section,
+                        .dark .fi-wi-widget,
+                        .dark .fi-main-content div {
+                            background-color: #1e293b !important;
+                            border-color: #334155 !important;
+                        }
+
+                        .dark .bg-white *,
+                        .dark [class*="bg-white"] *,
+                        .dark .fi-section * {
+                            color: #f8fafc !important;
+                        }
+
+                        /* Inputs, seletores e campos de busca no Modo Escuro */
+                        .dark input,
+                        .dark select,
+                        .dark textarea {
+                            background-color: #0f172a !important;
+                            color: #ffffff !important;
+                            border-color: #334155 !important;
+                        }
+
+                        /* --- 3. MODO ESCURO - CORES DOS BOTÕES E AÇÕES RÁPIDAS --- */
                         .dark [class*="acoes-rapidas"] a,
                         .dark [class*="acoes-rapidas"] button,
                         .dark .fi-section-content a,
@@ -100,14 +155,13 @@ class AdminPanelProvider extends PanelProvider
                             color: #f8fafc !important;
                         }
 
-                        /* --- MODO TURBO: FORÇAR AÇÕES RÁPIDAS NO CELULAR --- */
+                        /* --- 4. RESPONSIVIDADE PARA O CELULAR (AÇÕES RÁPIDAS) --- */
                         @media (max-width: 640px) {
-                            /* Arranca qualquer barra de rolagem horizontal da seção */
                             .fi-section-content {
                                 overflow-x: hidden !important; 
+                                padding: 0.5rem !important;
                             }
                             
-                            /* Força contêineres Flex ou Grid a quebrarem os itens para a linha de baixo */
                             .fi-section-content > div,
                             .fi-section-content > div > div,
                             [class*="acoes-rapidas"] > div {
@@ -117,7 +171,6 @@ class AdminPanelProvider extends PanelProvider
                                 width: 100% !important;
                             }
 
-                            /* Força os botões a ocuparem 100% da largura (1 por linha) para garantir que cabem na tela */
                             .fi-section-content a, 
                             .fi-section-content button {
                                 width: 100% !important; 
@@ -128,7 +181,20 @@ class AdminPanelProvider extends PanelProvider
                             }
                         }
 
-                        /* (Mantenha aqui as outras regras de cor do logo e da sidebar que você já tinha) */
+                        /* --- 5. CORES DOS CARDS STATS OVERVIEW --- */
+                        .fi-wi-stats-overview-stat:nth-child(1) .fi-wi-stats-overview-stat-label,
+                        .fi-wi-stats-overview-stat:nth-child(1) .fi-wi-stats-overview-stat-description { color: #0284c7 !important; font-weight: 700 !important; }
+                        .fi-wi-stats-overview-stat:nth-child(2) .fi-wi-stats-overview-stat-label,
+                        .fi-wi-stats-overview-stat:nth-child(2) .fi-wi-stats-overview-stat-description { color: #16a34a !important; font-weight: 700 !important; }
+                        .fi-wi-stats-overview-stat:nth-child(3) .fi-wi-stats-overview-stat-label,
+                        .fi-wi-stats-overview-stat:nth-child(3) .fi-wi-stats-overview-stat-description { color: #ea580c !important; font-weight: 700 !important; }
+                        .fi-wi-stats-overview-stat:nth-child(4) .fi-wi-stats-overview-stat-label,
+                        .fi-wi-stats-overview-stat:nth-child(4) .fi-wi-stats-overview-stat-description { color: #9333ea !important; font-weight: 700 !important; }
+
+                        /* Layout Compacto */
+                        .fi-main { padding-top: 0.75rem !important; padding-bottom: 0.75rem !important; }
+                        .fi-page-header { margin-bottom: 0.5rem !important; }
+                        .fi-widgets { gap: 0.75rem !important; }
                     </style>
                 ')
             )
