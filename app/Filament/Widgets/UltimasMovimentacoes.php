@@ -8,7 +8,7 @@ use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Filament\Tables\Actions\Action;
 
-class UltimasMovimentacoes extends BaseWidget
+class UltimasMovimentacoesWidget extends BaseWidget
 {
     protected static ?int $sort = 3;
     
@@ -23,8 +23,9 @@ class UltimasMovimentacoes extends BaseWidget
     {
         return $table
             ->query(
-                Movimentacao::query()->latest()->limit(5)
+                Movimentacao::query()->limit(5)
             )
+            ->defaultSort('data_hora', 'desc') // <-- FORÇA O FILAMENT A ORDENAR POR DATA_HORA
             ->columns([
                 Tables\Columns\TextColumn::make('data_hora')
                     ->label('DATA/HORA')
