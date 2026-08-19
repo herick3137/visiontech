@@ -6,57 +6,52 @@ use App\Models\Movimentacao;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
+use Filament\Tables\Actions\Action;
 
-class UltimasMovimentacoes extends BaseWidget
+class UltimasMovimentacoesWidget extends BaseWidget
 {
-    protected static ?string $heading = 'Últimas movimentações';
     protected static ?int $sort = 3;
-
+    
     protected int | string | array $columnSpan = [
-        'default' => 3,
+        'default' => 'full',
         'lg' => 2,
     ];
+
+    protected static ?string $heading = 'Últimas movimentações';
 
     public function table(Table $table): Table
     {
         return $table
             ->query(
-                
-                Movimentacao::query()->latest('data_hora')->limit(3)
+                Movimentacao::query()->latest()->limit(5)
             )
-            ->paginated(false)
             ->columns([
-                Tables\Columns\TextColumn::make('data_hora')
+                Tables\Columns\TextColumn::make('created_at')
                     ->label('DATA/HORA')
                     ->dateTime('d/m/Y H:i'),
 
                 Tables\Columns\TextColumn::make('componente.nome')
                     ->label('COMPONENTE')
-                    ->formatStateUsing(fn ($record) => $record->componente ? "{$record->componente->nome} {$record->componente->numero_serie}" : '—')
                     ->weight('bold'),
 
                 Tables\Columns\TextColumn::make('origem')
-                    ->label('ORIGEM'),
+                    ->label('ORIGEM')
+                    ->default('—'),
 
                 Tables\Columns\TextColumn::make('destino')
                     ->label('DESTINO')
-                    ->badge()
-                    ->color(fn (string $state): string => match (strtolower($state)) {
-                        'estoque' => 'success',
-                        'oficina', 'manutenção', 'manutencao' => 'warning',
-                        default => 'info',
-                    }),
+                    ->badge(),
 
-                Tables\Columns\TextColumn::make('usuario')
+                Tables\Columns\TextColumn::make('user.name')
                     ->label('USUÁRIO')
                     ->default('—'),
             ])
             ->headerActions([
-                Tables\Actions\Action::make('ver_todas')
+                Action::make('verTodas')
                     ->label('Ver todas')
-                    ->url('/admin/movimentacoes')
-                    ->color('primary')
-                    ->link(),
-            ]);
+                    ->color('info')
+                    ->url(fn (): string => \App\Filament\Resources\MovimentacaoResource::getUrl('index')),
+            ])
+            ->paginated(false);
     }
 }
