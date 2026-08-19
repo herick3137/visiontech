@@ -8,7 +8,7 @@ use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Filament\Tables\Actions\Action;
 
-class UltimasMovimentacoesWidget extends BaseWidget
+class UltimasMovimentacoes extends BaseWidget
 {
     protected static ?int $sort = 3;
     
