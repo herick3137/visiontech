@@ -2,8 +2,26 @@
     <x-filament::section compact>
         <h2 class="text-xs font-bold text-gray-900 dark:text-white mb-2 uppercase tracking-wider">Ações rápidas</h2>
 
-        <!-- No Celular: 1 por linha | No PC/Tablet: 4 em linha (1x4) -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
+        <!-- CSS Puro para garantir o Grid sem depender da compilação do Tailwind -->
+        <style>
+            .ar-grid {
+                display: grid !important;
+                grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+                gap: 0.5rem !important;
+            }
+            @media (min-width: 640px) {
+                .ar-grid {
+                    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                }
+            }
+            @media (min-width: 1024px) {
+                .ar-grid {
+                    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+                }
+            }
+        </style>
+
+        <div class="ar-grid">
             
             <!-- Botão 1: Ler QR Code -->
             <a href="/admin/scan-qr-code" class="p-2 bg-gray-50 dark:bg-gray-800/60 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-teal-500 transition flex items-center gap-2">
