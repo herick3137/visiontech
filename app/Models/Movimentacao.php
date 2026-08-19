@@ -12,6 +12,9 @@ class Movimentacao extends Model
     protected $table = 'movimentacoes';
     public $timestamps = false;
 
+    // Define data_hora como a coluna de criação do Eloquent
+    const CREATED_AT = 'data_hora'; 
+
     protected $fillable = [
         'componente_id',
         'origem',
@@ -21,6 +24,8 @@ class Movimentacao extends Model
         'data_hora',
     ];
 
+    // ... resto do seu código
+}
     protected $casts = [
         'data_hora' => 'datetime',
     ];
