@@ -69,7 +69,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->navigationItems([
                 NavigationItem::make('Sair')
-                    ->url(fn (): string => route('filament.admin.auth.logout'))
+                    ->url(fn (): string => route('admin.logout'))
                     ->icon('heroicon-o-arrow-right-on-rectangle')
                     ->group('ADMINISTRAÇÃO')
                     ->sort(99),
