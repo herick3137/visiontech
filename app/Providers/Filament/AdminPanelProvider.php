@@ -67,13 +67,6 @@ class AdminPanelProvider extends PanelProvider
                 NavigationGroup::make()->label('OPERACIONAL'),
                 NavigationGroup::make()->label('ADMINISTRAÇÃO'),
             ])
-            ->navigationItems([
-                NavigationItem::make('Sair')
-                    ->url(fn (): string => route('admin.logout'))
-                    ->icon('heroicon-o-arrow-right-on-rectangle')
-                    ->group('ADMINISTRAÇÃO')
-                    ->sort(99),
-            ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
