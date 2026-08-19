@@ -26,7 +26,7 @@ class UltimasMovimentacoes extends BaseWidget
                 Movimentacao::query()->latest()->limit(5)
             )
             ->columns([
-                Tables\Columns\TextColumn::make('created_at')
+                Tables\Columns\TextColumn::make('data_hora')
                     ->label('DATA/HORA')
                     ->dateTime('d/m/Y H:i'),
 
