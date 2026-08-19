@@ -24,8 +24,6 @@ class Movimentacao extends Model
         'data_hora',
     ];
 
-    // ... resto do seu código
-}
     protected $casts = [
         'data_hora' => 'datetime',
     ];
