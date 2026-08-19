@@ -82,24 +82,35 @@ class AdminPanelProvider extends PanelProvider
                 \App\Filament\Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->renderHook(
+                        ->renderHook(
                 PanelsRenderHook::HEAD_END,
-                fn (): string => Blade::render('
+                fn(): string => Blade::render('
                     <style>
-                        /* Escurece o fundo do layout principal e da tela de login no modo claro */
-                        body, .fi-simple-layout {
-                            background-color: #e2e8f0 !important;
+                        /* Ajuste de texto do Logo para a Sidebar Escura */
+                        aside.fi-sidebar .brand-text-primary {
+                            color: #ffffff !important;
+                        }
+                        aside.fi-sidebar .brand-text-secondary {
+                            color: #9ca3af !important;
                         }
 
                         /* Estilização da Barra Lateral Escura */
                         aside.fi-sidebar {
                             background-color: #0b1120 !important;
                             border-right: 1px solid #1e293b !important;
+                            display: flex !important;
+                            flex-direction: column !important;
                         }
                         aside.fi-sidebar .fi-sidebar-header,
                         aside.fi-sidebar .fi-sidebar-nav {
                             background-color: transparent !important;
                         }
+                        aside.fi-sidebar .fi-sidebar-nav {
+                            flex: 1 1 auto !important;
+                            display: flex !important;
+                            flex-direction: column !important;
+                        }
+
                         .fi-sidebar-group-label span {
                             color: #64748b !important;
                             font-size: 0.7rem !important;
@@ -114,6 +125,50 @@ class AdminPanelProvider extends PanelProvider
                         }
                         .fi-sidebar-item-active .fi-sidebar-item-button * {
                             color: #ffffff !important;
+                        }
+
+                        /* --- CORREÇÃO DO TEMA ESCURO PARA AÇÕES RÁPIDAS E CARDS --- */
+                        
+                        /* Ajuste dos botões/cards de Ações Rápidas no Modo Escuro */
+                        .dark .fi-section,
+                        .dark .fi-wi-widget,
+                        .dark [class*="AcoesRapidas"] button,
+                        .dark [class*="acoes-rapidas"] a,
+                        .dark [class*="quick-actions"] {
+                            background-color: #1e293b !important;
+                            border-color: #334155 !important;
+                        }
+
+                        /* Texto escuro/claro adaptável para Ações Rápidas */
+                        .dark [class*="AcoesRapidas"] *,
+                        .dark [class*="acoes-rapidas"] * {
+                            color: #f8fafc !important;
+                        }
+                        
+                        /* Suporte universal para os títulos e descrições dos botões dentro das ações rápidas */
+                        .dark .fi-section-content a, 
+                        .dark .fi-section-content button {
+                            background-color: #1e293b !important;
+                            border: 1px solid #334155 !important;
+                        }
+                        .dark .fi-section-content a *, 
+                        .dark .fi-section-content button * {
+                            color: #e2e8f0 !important;
+                        }
+
+                        /* --- ADAPTAÇÃO RESPONSIVA PARA CELULAR (AÇÕES RÁPIDAS) --- */
+                        @media (max-width: 640px) {
+                            /* Força os botões de Ações Rápidas a ficarem em grade 2x2 ou 1 coluna bem visível no celular */
+                            .fi-section-content .grid,
+                            [class*="acoes-rapidas"] .grid {
+                                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                                gap: 0.5rem !important;
+                            }
+
+                            .fi-section-content a, 
+                            .fi-section-content button {
+                                padding: 0.5rem !important;
+                            }
                         }
 
                         /* Cores dos Títulos e Legendas dos Cards do StatsOverview */
@@ -145,7 +200,7 @@ class AdminPanelProvider extends PanelProvider
                             font-weight: 700 !important;
                         }
 
-                        /* Compactação para caber em 100vh sem rolagem */
+                        /* Compactação para caber na tela */
                         .fi-main { padding-top: 0.75rem !important; padding-bottom: 0.75rem !important; }
                         .fi-page-header { margin-bottom: 0.5rem !important; }
                         .fi-widgets { gap: 0.75rem !important; }
